@@ -1,0 +1,11 @@
+#version tag, should be always present at the beginning
+version: '3'
+
+services:
+  nginx:
+    build: /requirements/nginx
+
+  mariadb:
+    build: /requirements/mariadb
+  
+
