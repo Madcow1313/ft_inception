@@ -3,9 +3,21 @@ version: '3'
 
 services:
   nginx:
-    build: /requirements/nginx
+    container_name: nginx
+    build: ./requirements/nginx
+    restart: always
+    env_file:
+      - .env
+    hostname: localhost #do i need this?
+    ports:
+      - 443:443 #pc-port:container-port to connect between pc and container
 
   mariadb:
-    build: /requirements/mariadb
-  
+    container_name: mariadb
+    build: ./requirements/mariadb
+    restart: always
+    env_file:
+      - .env
+    ports:
+      -3306:3306
 

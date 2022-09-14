@@ -1,0 +1,3 @@
+CREATE DATABASE wabathur_db;
+GRANT ALL ON wabathur_db.* TO 'wabathur'@'localhost' IDENTIFIED BY '111' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
