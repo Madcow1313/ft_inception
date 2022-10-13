@@ -5,3 +5,6 @@ RUN apt update
 RUN apt install -y php7.4 php-mysqli php-fpm
 
 EXPOSE 9000
+
+WORKDIR /var/www
+

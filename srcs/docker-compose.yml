@@ -9,8 +9,12 @@ services:
     env_file:
       - .env
     hostname: localhost #do i need this?
+    networks:
+      - inception
     ports:
       - 443:443 #pc-port:container-port to connect between pc and container
+    volumes:
+      -wp-volume:/var/www
 
   mariadb:
     container_name: mariadb
@@ -18,6 +22,27 @@ services:
     restart: always
     env_file:
       - .env
+    networks:
+      - inception
     ports:
       -3306:3306
 
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    depends_on:
+      - mariadb
+    restart: on-failure
+
+volumes: 
+  wordpress:
+    name: wp-volume
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/wordpress
+
+networks:
+    inception:
+        driver: bridge
