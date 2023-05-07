@@ -14,7 +14,7 @@ services:
     ports:
       - 443:443 #pc-port:container-port to connect between pc and container
     volumes:
-      -wp-volume:/var/www
+      - wp-volume:/var/www
 
   mariadb:
     container_name: mariadb
