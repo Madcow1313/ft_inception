@@ -1,23 +1,19 @@
 FROM debian:buster
 
-RUN apt update
+RUN apt-get update
 
-RUN apt install -y mariadb-server
+RUN apt-get install -y mariadb-server mariadb-client
 
 EXPOSE 3306
 
-#COPY ./conf/mariadb.cnf /etc/mysql/mariadb.cnf
-COPY ./tools/start.sql /var/www/mariadbtools/start.sql
+#RUN mkdir -p /var/run/mysqld && chmod 777 /var/run/mysqld
 
-#start mariadb
-RUN systemctl start mariadb; systemctl enable mariadb
+#COPY ./tools/start.sql /var/www/mariadbtools/start.sql
 
-#check status
-RUN systemctl status mariadb
+#RUN chmod +x /var/www/mariadbtools/start.sql
 
-RUN mysql < /var/www/mariadbtools/start.sql
+#RUN mysqld < /var/www/mariadbtools/start.sql
 
-RUN mysql SHOW DATABASES; exit;
+#RUN mysqld SHOW DATABASES; exit;
 
-#can it be run?
-CMD mysqld_safe
+CMD ["mysqld_safe"]

@@ -14,7 +14,7 @@ services:
     ports:
       - 443:443 #pc-port:container-port to connect between pc and container
     volumes:
-      - wp-volume:/var/www
+      - wordpress:/var/www
 
   mariadb:
     container_name: mariadb
@@ -25,14 +25,22 @@ services:
     networks:
       - inception
     ports:
-      -3306:3306
+      - 3306:3306
+    volumes:
+      - mariadb:/var/lib/mysql
 
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
     depends_on:
       - mariadb
-    restart: on-failure
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - inception
+    volumes:
+      - wordpress:/var/www/
 
 volumes: 
   wordpress:
@@ -41,7 +49,14 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/${USER}/wordpress
+      device: /home/${USER}/data/wordpress
+  mariadb:
+    name: mariadb-volume
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/data/mariadb
 
 networks:
     inception:

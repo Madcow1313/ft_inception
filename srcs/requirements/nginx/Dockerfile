@@ -15,10 +15,11 @@ RUN apt install -y openssl
 EXPOSE 443
 
 #copy conf file to container
-COPY ./conf/nginx.conf /etc/nginx/sites-enabled/nginx.conf
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 #create ssl key and sert
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj '/CN=localhost'
+RUN openssl req -x509 -nodes -days 365 -sha256  -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt \
+	-subj '/CN=RU/ST=Kazan/L=Kazan/O=42'
 
 #run nginx, -c to specify config
-RUN nginx -g 'daemon off;' -c /etc/nginx/sites-enabled/nginx.conf
+CMD [ "nginx"; "-g"; "'daemon off'"; "-c"; "etc/nginx/nginx.conf" ]
