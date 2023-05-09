@@ -14,6 +14,6 @@ EXPOSE 3306
 
 #RUN mysqld < /var/www/mariadbtools/start.sql
 
-#RUN mysqld SHOW DATABASES; exit;
+RUN mysqld SHOW DATABASES; exit;
 
-CMD ["mysqld_safe"]
+CMD ["mysqld"]

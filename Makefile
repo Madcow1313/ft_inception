@@ -1,14 +1,20 @@
-all: dc-create-nginx
+all:
+	docker compose -f ./srcs/docker-compose.yml up -d --build
 
-#nginx
-dc-create-nginx:
-	docker build ./srcs/requirements/nginx/ -t nginx:nginx
-	docker create --name nginx nginx
-	#docker run -p 443:80 nginx
+down:
+	docker compose -f ./srcs/docker-compose.yml down
 
-#dc-create-mariadb:
-	#docker build ./srcs/requirements/mariadb/ -t mariadb:mariadb
-	#docker create --name mariadb mariadb
+re:
+	docker compose -f srcs/docker-compose.yml up -d --build
+
+clean:
+	docker stop $$(docker ps -qa);\
+	docker rm $$(docker ps -qa);\
+	docker rmi -f $$(docker images -qa);\
+	docker volume rm $$(docker volume ls -q);\
+	docker network rm $$(docker network ls -q);\
+
+.PHONY: all re down clean
 
 
 
